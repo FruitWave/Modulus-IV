@@ -14,19 +14,30 @@ public class BruteForceCracker {
 		startTime = System.currentTimeMillis();
 
 		int ctr = 0;
-		while (!checkCode(ctr++))
-			;
+		// while (!checkCode(ctr++))
+		// ;
+
+		new Thread(() -> findCode(2147483647 / 4)).start();
+		new Thread(() -> findCode(2147483647 / 4 * 2)).start();
+		new Thread(() -> findCode(2147483647 / 4 * 3)).start();
+		new Thread(() -> findCode(2147483647)).start();
 
 		endTime = System.currentTimeMillis();
 		elapsedTime = (float) (endTime - startTime);
-		elapsedTime /= 1000.f;
+		elapsedTime /= 1000f;
 		System.out.println("Total time taken: " + elapsedTime + " seconds");
 	}
 
-	public static boolean checkCode(long p) {
-		if (p % 1000000000 == 0) {
-			System.out.println(p);
+	private static void findCode(long i) {
+		for (long j = i - (2147483647 / 4); j < i; j++) {
+			checkCode(j);
 		}
+	}
+
+	public static boolean checkCode(long p) {
+		// if (p % 10000000 == 0) {
+		// System.out.println(p);
+		// }
 
 		if (p == code) {
 			return true;
